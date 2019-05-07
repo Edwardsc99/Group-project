@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5909922C22819136000BA7E6 /* settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5909922B22819136000BA7E6 /* settings.swift */; };
+		5909922E22819143000BA7E6 /* random colour gen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5909922D22819142000BA7E6 /* random colour gen.swift */; };
 		CF4C752F22537C48000D6F22 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4C752E22537C48000D6F22 /* AppDelegate.swift */; };
 		CF4C753522537C48000D6F22 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4C753422537C48000D6F22 /* GameScene.swift */; };
 		CF4C753722537C48000D6F22 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4C753622537C48000D6F22 /* GameViewController.swift */; };
@@ -16,6 +18,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5909922B22819136000BA7E6 /* settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = settings.swift; sourceTree = "<group>"; };
+		5909922D22819142000BA7E6 /* random colour gen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "random colour gen.swift"; sourceTree = "<group>"; };
 		CF4C752B22537C48000D6F22 /* Group project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Group project.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF4C752E22537C48000D6F22 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CF4C753422537C48000D6F22 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
@@ -59,6 +63,8 @@
 				CF4C752E22537C48000D6F22 /* AppDelegate.swift */,
 				CF4C753422537C48000D6F22 /* GameScene.swift */,
 				CF4C753622537C48000D6F22 /* GameViewController.swift */,
+				5909922B22819136000BA7E6 /* settings.swift */,
+				5909922D22819142000BA7E6 /* random colour gen.swift */,
 				CF4C753822537C48000D6F22 /* Main.storyboard */,
 				CF4C753B22537C48000D6F22 /* Assets.xcassets */,
 				CF4C753D22537C48000D6F22 /* LaunchScreen.storyboard */,
@@ -140,6 +146,8 @@
 			files = (
 				CF4C753522537C48000D6F22 /* GameScene.swift in Sources */,
 				CF4C753722537C48000D6F22 /* GameViewController.swift in Sources */,
+				5909922E22819143000BA7E6 /* random colour gen.swift in Sources */,
+				5909922C22819136000BA7E6 /* settings.swift in Sources */,
 				CF4C752F22537C48000D6F22 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
