@@ -1,21 +1,34 @@
-//
-//  GameScene.swift
-//  new group app
-//
-//  Created by Liam Driver (s5111108) on 01/05/2019.
-//  Copyright © 2019 Liam Driver. All rights reserved.
-//
-
 import SpriteKit
 
+enum PlayColours {
+    static let colours = [
+        UIColor(red: 231/255, green: 76/255, blue: 60/255, alpha: 1.0),
+        UIColor(red: 241/255, green: 196/255, blue: 15/255, alpha: 1.0),
+        UIColor(red: 46/255, green: 204/255, blue: 113/255, alpha: 1.0),
+        UIColor(red: 52/255, green: 152/255, blue: 219/255, alpha: 1.0)
+    ]
+}
+enum SwitchState: Int {
+    case red, yellow, green, blue
+}
+
+
+
 class GameScene: SKScene {
-    
-    
+
+    var switchState = SwitchState.red
+    var currentColourIndex: Int?
     var force = -20.0
     let target = SKSpriteNode(imageNamed: "ColorCircle")
     
     override func didMove(to view: SKView) {
+        setupPhysics()
         layoutScene()
+    }
+    
+    func setupPhysics() {
+        physicsWorld.gravity = CGVector(dx: 0.0, dy: -2.0)
+  physicsWorld.contactDelegate = self
     }
     
     func layoutScene() {
@@ -24,20 +37,23 @@ class GameScene: SKScene {
         target.size = CGSize(width: 120.0, height: 120.0)
         target .position = CGPoint(x: frame.midX, y: 150)
         target.physicsBody = SKPhysicsBody(circleOfRadius: target.size.width/2)
+        target.physicsBody?.categoryBitMask = physicsCategories.switchcategory
         target.physicsBody?.isDynamic = false
         addChild(target)
     }
     
     func spawnball() {
-        let ball = SKSpriteNode(imageNamed: "ball")
-        ball.size = CGSize(width: 30.0, height: 30.0)
+        currentColourIndex = Int(arc4random_uniform((4)))
+        
+        let ball = SKSpriteNode(texture: SKTexture(imageNamed: "ball"), color: PlayColours.colours[currentColourIndex!], size: CGSize(width: 30.0, height: 30.0))
+        ball.colorBlendFactor = 1.0
+        ball.name = "Ball"
         ball.position = CGPoint(x: frame.midX, y: frame.midY)
         ball.physicsBody = SKPhysicsBody(circleOfRadius: ball.size.width/2)
-        ball.physicsBody?.isDynamic = true
-        ball.physicsBody?.affectedByGravity = true
-        physicsWorld.gravity = CGVector(dx: 0, dy: -2.0)
+        ball.physicsBody?.categoryBitMask = physicsCategories.ballcategory
+        ball.physicsBody?.contactTestBitMask = physicsCategories.switchcategory
+        ball.physicsBody?.collisionBitMask = UInt32(physicsCategories.none)
         addChild(ball)
-        ball.physicsBody?.applyImpulse(CGVector(dx: 0, dy: force))
         
     }
     
@@ -69,4 +85,20 @@ class GameScene: SKScene {
         }
     }
     
+}
+
+extension GameScene: SKPhysicsContactDelegate {
+    
+    func didBegin(_ contact: SKPhysicsContact) {
+        let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
+        
+        if contactMask == physicsCategories.ballcategory |
+            physicsCategories.switchcategory{
+            
+    }
+}
+
+
+
+
 }
