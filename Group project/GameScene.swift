@@ -21,13 +21,17 @@ class GameScene: SKScene {
     var force = -20.0
     let target = SKSpriteNode(imageNamed: "ColorCircle")
     
+    let scoreLabel = SKLabelNode(text: "0")
+    var score = 0
+    
+    
     override func didMove(to view: SKView) {
         setupPhysics()
         layoutScene()
     }
     
     func setupPhysics() {
-        physicsWorld.gravity = CGVector(dx: 0.0, dy: -2.0)
+        physicsWorld.gravity = CGVector(dx: 0.0, dy: -1.0)
   physicsWorld.contactDelegate = self
     }
     
@@ -37,9 +41,22 @@ class GameScene: SKScene {
         target.size = CGSize(width: 120.0, height: 120.0)
         target .position = CGPoint(x: frame.midX, y: 150)
         target.physicsBody = SKPhysicsBody(circleOfRadius: target.size.width/2)
+        target.zPosition = ZPositions.target
         target.physicsBody?.categoryBitMask = physicsCategories.switchcategory
         target.physicsBody?.isDynamic = false
         addChild(target)
+        
+       scoreLabel.fontName = "AvenirNext-Bold"
+       scoreLabel.fontSize = 60.0
+       scoreLabel.fontColor = UIColor.white
+       scoreLabel.position = CGPoint(x: frame.midX, y: frame.midY)
+       scoreLabel.zPosition = ZPositions.label
+       addChild(scoreLabel)
+        
+    }
+    
+    func updateScoreLabel() {
+        scoreLabel.text = "\(score)"
     }
     
     func spawnball() {
@@ -48,7 +65,8 @@ class GameScene: SKScene {
         let ball = SKSpriteNode(texture: SKTexture(imageNamed: "ball"), color: PlayColours.colours[currentColourIndex!], size: CGSize(width: 30.0, height: 30.0))
         ball.colorBlendFactor = 1.0
         ball.name = "Ball"
-        ball.position = CGPoint(x: frame.midX, y: frame.midY)
+        ball.position = CGPoint(x: frame.midX, y: frame.maxY)
+        ball.zPosition = ZPositions.ball
         ball.physicsBody = SKPhysicsBody(circleOfRadius: ball.size.width/2)
         ball.physicsBody?.categoryBitMask = physicsCategories.ballcategory
         ball.physicsBody?.contactTestBitMask = physicsCategories.switchcategory
@@ -57,35 +75,30 @@ class GameScene: SKScene {
         
     }
     
+    func turnWheel() {
+        if let newState = SwitchState(rawValue: switchState.rawValue + 1)  {
+            switchState = newState
+        } else{
+            switchState = .red
+        }
+        
+        target.run(SKAction.rotate(byAngle: .pi/2, duration: 0.25))
+        
+    }
+    
+    func gameOver() {
+        print("GameOver!")
+    }
+    
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-        
-        force += 0.2
-        let touch = touches.first!
-        let touchLocation = touch.location(in: self)
+        turnWheel()
+    }
+    
+    
+    }
+    
 
-        if touchLocation.x > frame.midX {
-            target.zRotation += deg2rad(90)
-        } else {
-            target.zRotation -= deg2rad(90)
-        }
-        
-    }
-    
-    
-    func deg2rad(_ number: CGFloat) -> CGFloat {
-        return number * .pi / 180
-    }
-    
-    override func update(_ currentTime: TimeInterval) {
-        for child in children {
-            if child.position.y < -100 {
-                child.removeFromParent()
-            }
-        }
-    }
-    
-}
 
 extension GameScene: SKPhysicsContactDelegate {
     
@@ -94,11 +107,24 @@ extension GameScene: SKPhysicsContactDelegate {
         
         if contactMask == physicsCategories.ballcategory |
             physicsCategories.switchcategory{
+            if let ball = contact.bodyA.node?.name == "Ball" ?
+                contact.bodyA.node as? SKSpriteNode : contact.bodyB.node as? SKSpriteNode {
+                if currentColourIndex == switchState.rawValue {
+                    score += 1
+                    updateScoreLabel()
+                    ball.run(SKAction.fadeOut(withDuration: 0.25), completion: { ball.removeFromParent()
+                    self.spawnball()
+                
+            })
             
-    }
+                } else {
+                    gameOver()
 }
 
 
+                }
+            }
+        }
 
 
 }
