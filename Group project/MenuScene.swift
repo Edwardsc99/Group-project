@@ -7,13 +7,12 @@
 //
 
 import SpriteKit
-import Firebase
+
 
 class MenuScene: SKScene {
     
     override func didMove(to view: SKView) {
         backgroundColor = UIColor.black
-        FirebaseApp.configure()
         addLogo()
         addLabels()
         

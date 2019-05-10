@@ -1,4 +1,5 @@
 import SpriteKit
+import Firebase
 
 
 enum PlayColours {
@@ -27,6 +28,7 @@ class GameScene: SKScene {
     
     override func didMove(to view: SKView) {
         setupPhysics()
+        FirebaseApp.configure()
         layoutScene()
         self.blingSound = SKAction.playSoundFileNamed("bling", waitForCompletion: false)
     }
@@ -35,6 +37,23 @@ class GameScene: SKScene {
         physicsWorld.gravity = CGVector(dx: 0.0, dy: -1.0)
   physicsWorld.contactDelegate = self
     }
+    
+    func watch(){
+        let ref = Firestore.firestore().collection("score")
+        ref.getDocuments { snapshot, error in
+            for document in snapshot!.documents {
+                let annotation = UserAnnotation(document: document)
+                self.annotations.append(annotation)
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
+    func save() {
+            let ref = Firestore.firestore().collection("score").document("app")
+            ref.setData(ref)
+            
+        }
     
     func layoutScene() {
         backgroundColor = UIColor.black
@@ -122,6 +141,18 @@ extension GameScene: SKPhysicsContactDelegate {
                         run(blingSound!)
                     }
                     score += 1
+                    if score > 5 {
+                        physicsWorld.gravity = CGVector(dx: 0.0, dy: -3.0)
+                    }
+                    if score > 10 {
+                        physicsWorld.gravity = CGVector(dx: 0.0, dy: -5.0)
+                    }
+                    if score > 20 {
+                        physicsWorld.gravity = CGVector(dx: 0.0, dy: -7.0)
+                    }
+                    if score > 25 {
+                        physicsWorld.gravity = CGVector(dx: 0.0, dy: -9.0)
+                    }
                     updateScoreLabel()
                     ball.run(SKAction.fadeOut(withDuration: 0.25), completion: { ball.removeFromParent()
                     self.spawnball()
@@ -130,6 +161,7 @@ extension GameScene: SKPhysicsContactDelegate {
             
                 } else {
                     gameOver()
+                    save()
 }
 
 
