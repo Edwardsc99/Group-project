@@ -20,14 +20,14 @@ class GameScene: SKScene {
     var currentColourIndex: Int?
     var force = -20.0
     let target = SKSpriteNode(imageNamed: "ColorCircle")
-    
     let scoreLabel = SKLabelNode(text: "0")
     var score = 0
-    
+    var blingSound: SKAction?
     
     override func didMove(to view: SKView) {
         setupPhysics()
         layoutScene()
+        self.blingSound = SKAction.playSoundFileNamed("bling", waitForCompletion: false)
     }
     
     func setupPhysics() {
@@ -87,23 +87,22 @@ class GameScene: SKScene {
     }
     
     func gameOver() {
-        
-        UserDefaults.standard.set(score, forKey: "RecentScore")
-        if score > UserDefaults.standard.integer(forKey: "Highscore"){
-            UserDefaults.standard.set(score, forKey: "Highscore")
+        run(SKAction.playSoundFileNamed("game_over", waitForCompletion: true)){
+            UserDefaults.standard.set(self.score, forKey: "RecentScore")
+            if self.score > UserDefaults.standard.integer(forKey: "Highscore"){
+                UserDefaults.standard.set(self.score, forKey: "Highscore")
             
         }
         
-        let menuScene = MenuScene(size: view!.bounds.size)
-        view!.presentScene(menuScene)
+        let menuScene = MenuScene(size: self.view!.bounds.size)
+        self.view!.presentScene(menuScene)
+        }
     }
     
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         turnWheel()
     }
-    
-    
     }
     
 
@@ -118,6 +117,9 @@ extension GameScene: SKPhysicsContactDelegate {
             if let ball = contact.bodyA.node?.name == "Ball" ?
                 contact.bodyA.node as? SKSpriteNode : contact.bodyB.node as? SKSpriteNode {
                 if currentColourIndex == switchState.rawValue {
+                    if blingSound == self.blingSound{
+                        run(blingSound!)
+                    }
                     score += 1
                     updateScoreLabel()
                     ball.run(SKAction.fadeOut(withDuration: 0.25), completion: { ball.removeFromParent()
