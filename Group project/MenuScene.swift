@@ -7,12 +7,13 @@
 //
 
 import SpriteKit
+import Firebase
 
 class MenuScene: SKScene {
     
     override func didMove(to view: SKView) {
         backgroundColor = UIColor.black
-        
+        FirebaseApp.configure()
         addLogo()
         addLabels()
         
@@ -48,6 +49,7 @@ class MenuScene: SKScene {
         recentScoreLabel.fontColor = UIColor.white
         recentScoreLabel.position = CGPoint(x: frame.midX, y: highScoreLabel.position.y - recentScoreLabel.frame.size.height*2)
         addChild(recentScoreLabel)
+        
         
     }
     
