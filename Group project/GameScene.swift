@@ -1,6 +1,6 @@
 import SpriteKit
 import Firebase
-
+import FirebaseFirestore
 
 enum PlayColours {
     static let colours = [
@@ -17,7 +17,8 @@ enum SwitchState: Int {
 
 
 class GameScene: SKScene {
-
+    
+    let uuid = UUID().uuidString
     var switchState = SwitchState.red
     var currentColourIndex: Int?
     var force = -20.0
@@ -25,10 +26,10 @@ class GameScene: SKScene {
     let scoreLabel = SKLabelNode(text: "0")
     var score = 0
     var blingSound: SKAction?
+    let highscore = 0
     
     override func didMove(to view: SKView) {
         setupPhysics()
-        FirebaseApp.configure()
         layoutScene()
         self.blingSound = SKAction.playSoundFileNamed("bling", waitForCompletion: false)
     }
@@ -37,23 +38,13 @@ class GameScene: SKScene {
         physicsWorld.gravity = CGVector(dx: 0.0, dy: -1.0)
   physicsWorld.contactDelegate = self
     }
-    
-    func watch(){
-        let ref = Firestore.firestore().collection("score")
-        ref.getDocuments { snapshot, error in
-            for document in snapshot!.documents {
-                let annotation = UserAnnotation(document: document)
-                self.annotations.append(annotation)
-                self.tableView.reloadData()
-            }
-        }
-    }
-    
+
     func save() {
-            let ref = Firestore.firestore().collection("score").document("app")
-            ref.setData(ref)
-            
-        }
+        
+        let scoreRef = Firestore.firestore().collection("scores").document(uuid)
+        scoreRef.setData(["score": score]) { error in }
+
+    }
     
     func layoutScene() {
         backgroundColor = UIColor.black
@@ -160,8 +151,9 @@ extension GameScene: SKPhysicsContactDelegate {
             })
             
                 } else {
-                    gameOver()
                     save()
+                    gameOver()
+                    
 }
 
 

@@ -1,0 +1,74 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'FirebaseAuth' do
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+  # use_frameworks!
+
+  # Pods for FirebaseAuth
+
+end
+
+target 'FirebaseCore' do
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+  # use_frameworks!
+
+  # Pods for FirebaseCore
+
+end
+
+target 'FirebaseDatabase' do
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+  # use_frameworks!
+
+  # Pods for FirebaseDatabase
+
+end
+
+target 'FirebaseInstanceID' do
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+  # use_frameworks!
+
+  # Pods for FirebaseInstanceID
+
+end
+
+target 'GoogleUtilities' do
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+  # use_frameworks!
+
+  # Pods for GoogleUtilities
+
+end
+
+target 'GTMSessionFetcher' do
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+  # use_frameworks!
+
+  # Pods for GTMSessionFetcher
+
+end
+
+target 'leveldb-library' do
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+  # use_frameworks!
+
+  # Pods for leveldb-library
+
+end
+
+target 'nanopb' do
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+  # use_frameworks!
+
+  # Pods for nanopb
+
+end
+
+target 'Pods-Group project' do
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+  # use_frameworks!
+
+  # Pods for Pods-Group project
+
+end

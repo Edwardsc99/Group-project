@@ -49,9 +49,7 @@ class MenuScene: SKScene {
         recentScoreLabel.position = CGPoint(x: frame.midX, y: highScoreLabel.position.y - recentScoreLabel.frame.size.height*2)
         addChild(recentScoreLabel)
         
-        
     }
-    
     func animate(label:SKLabelNode){
 //        let fadeOut = SKAction.fadeOut(withDuration: 0.5)
 //        let fadeIn = SKAction.fadeIn(withDuration: 0.5)
